@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>テイクアウト注文・ご予約 | STORY 川口市木曽呂</title>
+<meta name="description" content="STORYのテイクアウト注文・席予約はこちら。ガリバタからあげ・ストーリー焼きなどお持ち帰りOK！11:00〜20:30">
+<meta property="og:title" content="テイクアウト注文・ご予約 | STORY">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ff9ecd">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Cormorant+Garamond:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="reserve">
+<div id="site-header"></div>
+
+<main id="main-content">
+  <nav class="breadcrumb">
+    <a href="index.html">STORY</a><span>›</span> テイクアウト注文・ご予約
+  </nav>
+
+  <section class="page-hero">
+    <h1>🥡 テイクアウト注文・ご予約</h1>
+    <p>ご希望のお時間に合わせてご用意いたします</p>
+  </section>
+
+  <section style="padding:48px 5% 80px;">
+    <div style="max-width:760px;margin:0 auto;">
+      <!-- Back to menu -->
+      <a href="menu.html" class="back-to-menu">← メニューを変更する</a>
+
+      <!-- Cart Summary -->
+      <div class="cart-summary-panel">
+        <h2>🛒 注文内容</h2>
+        <div id="cart-summary-items"></div>
+        <div id="cart-summary-empty" class="cart-empty-msg" style="display:none;">
+          <p>カートが空です</p>
+          <a href="menu.html">← メニューページでお好みを選んでください</a>
+        </div>
+        <div class="cart-total-row" id="cart-summary-total"></div>
+      </div>
+
+      <!-- Tabs -->
+      <div style="display:flex;gap:8px;margin-bottom:24px;">
+        <button id="tab-to" class="res-tab active" onclick="switchTab('to')" style="flex:1;padding:12px;border-radius:12px;border:2px solid var(--amber);background:var(--peach);cursor:pointer;font-weight:700;font-family:inherit;">🥡 テイクアウト</button>
+        <button id="tab-seat" class="res-tab" onclick="switchTab('seat')" style="flex:1;padding:12px;border-radius:12px;border:2px solid var(--border);background:var(--warm);cursor:pointer;font-weight:700;font-family:inherit;">🪑 席・宴会予約</button>
+      </div>
+
+      <!-- Takeout Panel -->
+      <div id="panel-to" class="res-panel">
+        <form id="res-form" onsubmit="event.preventDefault();submitReservation();">
+          <div class="form-group">
+            <label class="form-label" for="res-name">お名前 <span style="color:#e74c3c;">*</span></label>
+            <input class="form-input" type="text" id="res-name" required placeholder="山田 太郎">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="res-tel">お電話番号 <span style="color:#e74c3c;">*</span></label>
+            <input class="form-input" type="tel" id="res-tel" required placeholder="090-0000-0000">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div class="form-group">
+              <label class="form-label" for="res-date">ご希望日 <span style="color:#e74c3c;">*</span></label>
+              <input class="form-input" type="date" id="res-date" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="res-time">受け取り時間 <span style="color:#e74c3c;">*</span></label>
+              <input class="form-input" type="time" id="res-time" min="11:00" max="20:15" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="res-order">ご注文内容</label>
+            <textarea class="form-input" id="res-order" rows="5" placeholder="メニューページのカートから自動で入力されます"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="res-note">その他・アレルギー等</label>
+            <textarea class="form-input" id="res-note" rows="3" placeholder="アレルギーや特記事項があればご記入ください"></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;border:none;cursor:pointer;padding:16px;">📨 送信する</button>
+          <p style="font-size:0.72rem;color:var(--brown);margin-top:10px;text-align:center;">※確認のお電話をする場合があります。お電話でのご予約は <a href="tel:08035081890" style="color:var(--amber);">080-3508-1890</a> まで。</p>
+        </form>
+        <div id="res-success" role="status" aria-live="polite" style="display:none;margin-top:16px;padding:16px;background:#e8f5e9;border-radius:12px;text-align:center;color:#2e7d32;font-weight:700;">✅ 送信ありがとうございます！確認次第ご連絡いたします🐸</div>
+      </div>
+
+      <!-- Seat Panel -->
+      <div id="panel-seat" class="res-panel" style="display:none;">
+        <form onsubmit="event.preventDefault();submitReservation();">
+          <div class="form-group">
+            <label class="form-label" for="seat-name">お名前 <span style="color:#e74c3c;" aria-hidden="true">*</span><span class="sr-only">（必須）</span></label>
+            <input class="form-input" type="text" id="seat-name" required placeholder="山田 太郎" aria-required="true">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="seat-tel">お電話番号 <span style="color:#e74c3c;" aria-hidden="true">*</span><span class="sr-only">（必須）</span></label>
+            <input class="form-input" type="tel" id="seat-tel" required placeholder="090-0000-0000" aria-required="true">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;">
+            <div class="form-group">
+              <label class="form-label" for="seat-date">ご希望日 <span style="color:#e74c3c;" aria-hidden="true">*</span><span class="sr-only">（必須）</span></label>
+              <input class="form-input" type="date" id="seat-date" required aria-required="true">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="seat-time">ご希望時間 <span style="color:#e74c3c;" aria-hidden="true">*</span><span class="sr-only">（必須）</span></label>
+              <input class="form-input" type="time" id="seat-time" min="11:00" max="20:15" required aria-required="true">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="seat-party">人数</label>
+              <select class="form-input" id="seat-party">
+                <option>1名</option><option>2名</option><option>3名</option>
+                <option>4名</option><option>5名</option><option>6名以上</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="seat-note">その他・ご要望</label>
+            <textarea class="form-input" id="seat-note" rows="3" placeholder="記念日・アレルギー等"></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%;justify-content:center;border:none;cursor:pointer;padding:16px;">📨 送信する</button>
+        </form>
+        <p style="font-size:0.8rem;color:var(--brown);margin-top:12px;text-align:center;">宴会プランについては <a href="banquet.html" style="color:var(--amber);font-weight:700;">宴会プランページ</a> をご確認ください</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/reserve.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import sys; data=sys.stdin.buffer.read\\(\\); print\\(data.decode\\(''''utf-8''''\\)[:5000]\\)\")",
+      "Bash(python3:*)",
+      "Bash(node -e \":*)",
+      "Bash(grep -n \"id=\"\"main-content\"\"\" *.html)",
+      "Bash(grep -rn \"bgm-bar\" *.html)"
+    ]
+  }
+}

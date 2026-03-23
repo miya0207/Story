@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宴会プラン | STORY 川口市木曽呂</title>
+<meta name="description" content="STORYの宴会・グループプラン。ボードゲームがある居酒屋は川口市内でここだけ！歓送迎会・誕生日・クラス会に。">
+<meta property="og:title" content="宴会プラン | STORY 川口市木曽呂">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ff9ecd">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Cormorant+Garamond:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="banquet">
+<div id="site-header"></div>
+
+<main id="main-content">
+  <nav class="breadcrumb">
+    <a href="index.html">STORY</a><span>›</span> 宴会プラン
+  </nav>
+
+  <section class="page-hero">
+    <h1>🎮 宴会・グループプラン</h1>
+    <p>ボードゲームがある居酒屋は川口市内でここだけ！</p>
+  </section>
+
+  <!-- Banquet Plans -->
+  <section id="banquet-section" style="padding:60px 5%;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div class="section-header fade-up">
+        <span class="section-eyebrow">BANQUET PLAN</span>
+        <h2 class="section-title">宴会コースプラン</h2>
+        <p class="section-lead">宴会1回（4名・¥2,500コース）＝日商が1日で倍になります。グループ・歓送迎会・誕生日・クラス会 大歓迎！</p>
+      </div>
+
+      <div class="banquet-grid fade-up">
+        <div class="banquet-card">
+          <div class="banquet-icon">🎮</div>
+          <div class="banquet-name">ゲームプラン</div>
+          <div class="banquet-person">2〜4名 / 2時間</div>
+          <div class="banquet-price">¥1,500 <span>/ 人</span></div>
+          <div class="banquet-items">ドリンク2杯＋おつまみ2品<br>ボードゲーム遊び放題</div>
+          <button class="banquet-reserve-btn" onclick="selectPlan('ゲームプラン（¥1,500/人）')">📅 このプランで予約</button>
+        </div>
+        <div class="banquet-card featured">
+          <div class="banquet-icon">🎉</div>
+          <div class="banquet-name">ガッツリプラン</div>
+          <div class="banquet-person">3〜6名 / 3時間</div>
+          <div class="banquet-price">¥2,500 <span>/ 人</span></div>
+          <div class="banquet-items">ドリンク3杯＋定食orからあげ<br>おつまみ3品＋ボードゲーム<br>歓送迎会・誕生日におすすめ！</div>
+          <button class="banquet-reserve-btn" onclick="selectPlan('ガッツリプラン（¥2,500/人）')">📅 このプランで予約</button>
+        </div>
+        <div class="banquet-card">
+          <div class="banquet-icon">🥂</div>
+          <div class="banquet-name">フルプラン</div>
+          <div class="banquet-person">4名〜 / 前日予約必須</div>
+          <div class="banquet-price">¥3,500 <span>/ 人</span></div>
+          <div class="banquet-items">飲み放題2時間＋料理8品<br>ボードゲーム＋締めストーリー焼き<br>宴会・クラス会・ファミリーに</div>
+          <button class="banquet-reserve-btn" onclick="selectPlan('フルプラン（¥3,500/人）')">📅 このプランで予約</button>
+        </div>
+      </div>
+
+      <!-- Callout -->
+      <div class="fade-up" style="text-align:center;margin-top:40px;padding:28px;background:linear-gradient(135deg,#fff9fc,#f8f4ff);border-radius:20px;border:2px solid var(--amber);max-width:700px;margin-left:auto;margin-right:auto;">
+        <p style="font-size:1.1rem;font-weight:800;font-family:'Shippori Mincho',serif;margin-bottom:8px;">🎮 川口市内でここだけ！</p>
+        <p style="font-size:0.88rem;color:var(--brown);line-height:1.8;">ボードゲーム×お食事×お酒が楽しめる唯一のお店。<br>歓送迎会・誕生日会・クラス会・会社宴会に最適です。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact CTA -->
+  <section style="padding:0 5% 40px;">
+    <div style="max-width:700px;margin:0 auto;text-align:center;padding:28px;background:#fff;border-radius:20px;border:1.5px solid var(--border);">
+      <p style="font-size:0.95rem;font-weight:700;margin-bottom:8px;">📞 宴会ご予約・お問い合わせ</p>
+      <p style="font-size:0.85rem;color:var(--brown);margin-bottom:16px;">お電話またはLINEで承ります。前日17:00までにご連絡ください。</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="tel:08035081890" class="btn-primary" style="padding:10px 22px;font-size:0.85rem;">📞 080-3508-1890</a>
+        <a href="https://line.me/R/ti/p/@story_kizoro" target="_blank" class="line-btn" style="margin-top:0;">💬 LINEで予約</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Form -->
+  <section id="banquet-form" style="padding:40px 5% 80px;background:var(--warm);">
+    <div style="max-width:700px;margin:0 auto;">
+      <div class="section-header fade-up">
+        <h2 class="section-title">📅 宴会予約フォーム</h2>
+        <p class="section-lead">ご希望のプランを選んで送信してください</p>
+      </div>
+      <form onsubmit="event.preventDefault();submitBanquetForm();" class="fade-up">
+        <div class="form-group">
+          <label class="form-label" for="banquet-name">お名前 <span style="color:#e74c3c;" aria-hidden="true">*</span><span class="sr-only">（必須）</span></label>
+          <input class="form-input" type="text" id="banquet-name" required placeholder="山田 太郎" aria-required="true">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="banquet-tel">お電話番号 <span style="color:#e74c3c;" aria-hidden="true">*</span><span class="sr-only">（必須）</span></label>
+          <input class="form-input" type="tel" id="banquet-tel" required placeholder="090-0000-0000" aria-required="true">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="form-group">
+            <label class="form-label" for="banquet-date">ご希望日 <span style="color:#e74c3c;" aria-hidden="true">*</span><span class="sr-only">（必須）</span></label>
+            <input class="form-input" type="date" id="banquet-date" required aria-required="true">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="banquet-time">ご希望時間 <span style="color:#e74c3c;" aria-hidden="true">*</span><span class="sr-only">（必須）</span></label>
+            <input class="form-input" type="time" id="banquet-time" min="11:00" max="20:15" required aria-required="true">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="banquet-party">人数</label>
+          <select class="form-input" id="banquet-party">
+            <option>2名</option><option>3名</option><option>4名</option>
+            <option>5名</option><option>6名</option><option>7名以上</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="banquet-note">ご希望のプラン・その他ご要望</label>
+          <textarea class="form-input" id="banquet-note" rows="4" placeholder="ゲームプラン / ガッツリプラン / フルプランなど"></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;justify-content:center;border:none;cursor:pointer;padding:16px;">📨 宴会予約を送信する</button>
+        <p style="font-size:0.72rem;color:var(--brown);margin-top:10px;text-align:center;">フルプランは前日17:00までの予約が必須です。お電話 <a href="tel:08035081890" style="color:var(--amber);">080-3508-1890</a> でも承ります。</p>
+      </form>
+      <div id="banquet-success" role="status" aria-live="polite" style="display:none;margin-top:16px;padding:16px;background:#e8f5e9;border-radius:12px;text-align:center;color:#2e7d32;font-weight:700;">✅ 送信ありがとうございます！確認次第ご連絡いたします🐸</div>
+    </div>
+  </section>
+
+  <!-- FAQ subset -->
+  <section id="faq" style="padding:60px 5%;background:var(--cream);">
+    <div style="max-width:800px;margin:0 auto;">
+      <div class="section-header fade-up">
+        <span class="section-eyebrow">FAQ</span>
+        <h2 class="section-title">よくある質問（宴会）</h2>
+      </div>
+      <div class="faq-list fade-up">
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">宴会予約の方法は？<span class="faq-icon">＋</span></button>
+          <div class="faq-a">このページの予約フォーム、お電話（080-3508-1890）、またはLINEからご予約ください。フルプランは前日17:00までの予約が必須です。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">何名から宴会できますか？<span class="faq-icon">＋</span></button>
+          <div class="faq-a">ゲームプランは2名〜、ガッツリプランは3名〜、フルプランは4名〜ご利用いただけます。大人数の場合はお電話でご相談ください。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">ボードゲームはどんな種類がありますか？<span class="faq-icon">＋</span></button>
+          <div class="faq-a">カタン・ドミニオン・ウノ・人狼・カードゲームなど多数ご用意しております。初心者の方でもスタッフがルールをご説明しますのでお気軽にどうぞ。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">支払い方法は何が使えますか？<span class="faq-icon">＋</span></button>
+          <div class="faq-a">現金とPayPayがご利用いただけます。2025年3月よりPayPay対応を開始しました。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">誕生日プレートなどの演出はできますか？<span class="faq-icon">＋</span></button>
+          <div class="faq-a">ご予約時にお申し付けください。可能な範囲でお誕生日のお祝い演出をご用意いたします。詳しくはお電話またはLINEでご相談ください。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+function selectPlan(planName) {
+  const note = document.getElementById('banquet-note');
+  if (note) note.value = planName + 'でのご予約希望';
+  const form = document.getElementById('banquet-form');
+  if (form) form.scrollIntoView({ behavior: 'smooth' });
+}
+
+function submitBanquetForm() {
+  const name = document.getElementById('banquet-name').value.trim();
+  const tel = document.getElementById('banquet-tel').value.trim();
+  const date = document.getElementById('banquet-date').value;
+  const time = document.getElementById('banquet-time').value;
+  if (!name || !tel || !date || !time) {
+    alert('お名前、お電話番号、ご希望日、ご希望時間は必須です。');
+    return;
+  }
+  const msg = document.getElementById('banquet-success');
+  if (msg) { msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 5000); }
+}
+
+// Set min date
+document.addEventListener('DOMContentLoaded', () => {
+  const dateInput = document.getElementById('banquet-date');
+  if (dateInput) {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dateInput.min = tomorrow.toISOString().split('T')[0];
+  }
+});
+</script>
+</body>
+</html>

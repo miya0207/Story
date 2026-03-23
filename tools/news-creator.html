@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📰 ニュース記事作成ツール | STORY 管理</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --ink: #3d2c4a; --cream: #fdfaff; --warm: #f8f4ff;
+    --amber: #ff9ecd; --brown: #5c3d8f; --border: rgba(160,130,200,0.2);
+    --green: #2e7d32; --red: #c62828;
+  }
+  body { font-family: 'Noto Sans JP', 'Hiragino Sans', sans-serif; background: #f0ebf8; color: var(--ink); font-size: 14px; }
+
+  /* ── HEADER ── */
+  .tool-header {
+    background: linear-gradient(135deg, #ff9ecd, #a78bfa);
+    color: #fff; padding: 16px 24px;
+    display: flex; align-items: center; gap: 12px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(167,139,250,0.3);
+  }
+  .tool-header h1 { font-size: 1.1rem; font-weight: 700; }
+  .tool-header p { font-size: 0.78rem; opacity: 0.9; margin-left: auto; }
+
+  /* ── LAYOUT ── */
+  .tool-layout {
+    display: grid; grid-template-columns: 440px 1fr;
+    gap: 0; min-height: calc(100vh - 56px);
+  }
+
+  /* ── FORM PANEL ── */
+  .form-panel {
+    background: #fff; padding: 24px;
+    border-right: 1px solid var(--border);
+    overflow-y: auto; height: calc(100vh - 56px);
+    position: sticky; top: 56px;
+  }
+  .form-section { margin-bottom: 18px; }
+  .form-section label {
+    display: block; font-size: 0.78rem; font-weight: 700;
+    color: var(--brown); margin-bottom: 5px; letter-spacing: 0.05em;
+  }
+  .form-section .hint { font-size: 0.7rem; color: #888; margin-bottom: 5px; line-height: 1.5; }
+  .form-input {
+    width: 100%; padding: 9px 12px; border-radius: 8px;
+    border: 1.5px solid var(--border); background: var(--warm);
+    font-size: 0.85rem; font-family: inherit; color: var(--ink);
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--amber); }
+  textarea.form-input { resize: vertical; line-height: 1.7; }
+  select.form-input { cursor: pointer; }
+
+  .badge-row { display: flex; gap: 8px; }
+  .badge-row .form-input:first-child { flex: 1; }
+  .badge-row select { width: 160px; flex-shrink: 0; }
+
+  .img-toggle { display: flex; gap: 6px; margin-bottom: 8px; }
+  .img-toggle button {
+    flex: 1; padding: 7px; border-radius: 8px; border: 1.5px solid var(--border);
+    background: var(--warm); cursor: pointer; font-size: 0.75rem; font-weight: 700;
+    color: var(--brown); font-family: inherit; transition: all 0.2s;
+  }
+  .img-toggle button.active { background: var(--amber); color: #fff; border-color: var(--amber); }
+
+  .img-preview { width: 100%; height: 80px; border-radius: 8px; object-fit: cover; margin-top: 6px; display: none; }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  .action-btns { display: flex; flex-direction: column; gap: 10px; }
+  .btn-download {
+    width: 100%; padding: 14px; border-radius: 12px; border: none;
+    background: linear-gradient(135deg, #ff9ecd, #a78bfa);
+    color: #fff; font-size: 0.9rem; font-weight: 700;
+    cursor: pointer; font-family: inherit; transition: all 0.2s;
+  }
+  .btn-download:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(167,139,250,0.4); }
+  .btn-snippet {
+    width: 100%; padding: 12px; border-radius: 12px;
+    border: 1.5px solid var(--brown); background: #fff;
+    color: var(--brown); font-size: 0.85rem; font-weight: 700;
+    cursor: pointer; font-family: inherit; transition: all 0.2s;
+  }
+  .btn-snippet:hover { background: var(--warm); }
+
+  /* ── SNIPPET BOX ── */
+  .snippet-wrap { margin-top: 16px; display: none; }
+  .snippet-wrap h3 { font-size: 0.78rem; font-weight: 700; color: var(--brown); margin-bottom: 8px; }
+  .snippet-code {
+    background: #1a1225; color: #e8d8f8;
+    border-radius: 10px; padding: 14px;
+    font-size: 0.72rem; line-height: 1.7;
+    font-family: 'Consolas', 'Monaco', monospace;
+    white-space: pre-wrap; overflow-x: auto;
+    margin-bottom: 8px;
+  }
+  .btn-copy {
+    width: 100%; padding: 8px; border-radius: 8px; border: none;
+    background: #1a1225; color: #a8f0d8;
+    font-size: 0.78rem; font-weight: 700;
+    cursor: pointer; font-family: inherit; transition: background 0.2s;
+  }
+  .btn-copy:hover { background: #2a1d3d; }
+  .btn-copy.copied { background: var(--green); color: #fff; }
+
+  /* ── PREVIEW PANEL ── */
+  .preview-panel {
+    padding: 24px; overflow-y: auto;
+    background: #f0ebf8;
+  }
+  .preview-panel h2 {
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--brown); margin-bottom: 16px; font-weight: 700;
+  }
+  .preview-frame {
+    background: #fdfaff; border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(61,44,74,0.1);
+    padding: 32px; max-width: 700px;
+  }
+
+  /* Article preview styles (mirror of site CSS) */
+  .prev-badge {
+    display: inline-block; font-size: 0.7rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 12px; margin-bottom: 10px;
+    background: #ff9ecd; color: #fff;
+  }
+  .prev-badge.new { background: #d0131a; }
+  .prev-badge.event { background: #6ecfb0; }
+  .prev-badge.kodomo { background: #6ecfb0; }
+  .prev-h1 {
+    font-family: Georgia, serif; font-size: 1.5rem; font-weight: 800;
+    line-height: 1.4; color: #3d2c4a; margin: 10px 0 8px;
+  }
+  .prev-date { font-size: 0.75rem; color: #5c3d8f; }
+  .prev-hero {
+    width: 100%; border-radius: 12px; margin: 20px 0;
+    aspect-ratio: 16/7; object-fit: cover;
+    background: linear-gradient(135deg, #ffe8f4, #ead5ff);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem;
+  }
+  .prev-body { font-size: 0.88rem; line-height: 2; color: #3d2c4a; }
+  .prev-body h2 {
+    font-family: Georgia, serif; font-size: 1.1rem; font-weight: 700;
+    margin: 28px 0 10px; padding-left: 12px;
+    border-left: 4px solid #ff9ecd;
+  }
+  .prev-body h3 { font-size: 0.95rem; font-weight: 700; margin: 18px 0 6px; }
+  .prev-body p { margin-bottom: 12px; }
+  .prev-body ul { padding-left: 1.5em; margin-bottom: 12px; }
+  .prev-body li { margin-bottom: 4px; }
+  .prev-body strong { font-weight: 700; }
+  .prev-body .highlight-box {
+    background: #ffe8f4; border-radius: 10px;
+    padding: 14px 18px; margin: 16px 0;
+    border-left: 4px solid #ff9ecd; font-size: 0.84rem;
+  }
+  .prev-footer {
+    margin-top: 32px; padding-top: 16px;
+    border-top: 1px solid rgba(160,130,200,0.15);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .prev-back { font-size: 0.82rem; color: #5c3d8f; }
+
+  /* ── STEPS GUIDE ── */
+  .steps-guide {
+    background: #fff; border-radius: 12px; padding: 16px 20px;
+    margin-bottom: 20px; border: 1px solid var(--border);
+  }
+  .steps-guide h3 { font-size: 0.8rem; font-weight: 700; color: var(--brown); margin-bottom: 10px; }
+  .step { display: flex; gap: 10px; font-size: 0.75rem; color: #555; margin-bottom: 6px; align-items: flex-start; }
+  .step-num {
+    background: var(--amber); color: #fff; border-radius: 50%;
+    width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+  }
+
+  @media (max-width: 900px) {
+    .tool-layout { grid-template-columns: 1fr; }
+    .form-panel { height: auto; position: static; }
+  }
+</style>
+</head>
+<body>
+
+<header class="tool-header">
+  <span style="font-size:1.4rem;">📰</span>
+  <h1>ニュース記事作成ツール</h1>
+  <p>STORY 管理ツール — 入力 → プレビュー → ダウンロード</p>
+</header>
+
+<div class="tool-layout">
+
+  <!-- ── FORM PANEL ── -->
+  <div class="form-panel">
+
+    <div class="steps-guide">
+      <h3>📋 使い方</h3>
+      <div class="step"><div class="step-num">1</div><div>下のフォームを入力してプレビューを確認</div></div>
+      <div class="step"><div class="step-num">2</div><div>「HTMLをダウンロード」→ <code>news/</code> フォルダに保存</div></div>
+      <div class="step"><div class="step-num">3</div><div>「data.js用コード」を <code>js/data.js</code> の NEWS_LIST に追記</div></div>
+    </div>
+
+    <div class="form-section">
+      <label for="f-title">タイトル <span style="color:#e74c3c;">*</span></label>
+      <input class="form-input" type="text" id="f-title" placeholder="例：春の新メニューが登場しました" oninput="updateAll()">
+    </div>
+
+    <div class="form-section">
+      <label for="f-date">日付</label>
+      <input class="form-input" type="text" id="f-date" placeholder="例：2025.04" oninput="updateAll()">
+    </div>
+
+    <div class="form-section">
+      <label>バッジ</label>
+      <div class="badge-row">
+        <input class="form-input" type="text" id="f-badge" placeholder="例：NEW" oninput="updateAll()">
+        <select class="form-input" id="f-badge-style" onchange="updateAll()">
+          <option value="">ピンク（デフォルト）</option>
+          <option value="new">赤（NEW・重要）</option>
+          <option value="event">緑（イベント・近日）</option>
+          <option value="kodomo">緑（支援・こども）</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <label for="f-summary">概要 <span style="font-weight:400;color:#888;">（一覧ページに表示）</span></label>
+      <textarea class="form-input" id="f-summary" rows="2" placeholder="一行で内容を説明する文章" oninput="updateAll()"></textarea>
+    </div>
+
+    <div class="form-section">
+      <label for="f-content">本文</label>
+      <p class="hint">
+        <code>## 見出し</code> / <code>### 小見出し</code> / <code>**太字**</code> / <code>- リスト項目</code><br>
+        <code>[box]ハイライトボックス内のテキスト[/box]</code>
+      </p>
+      <textarea class="form-input" id="f-content" rows="14" placeholder="## 見出しを書く&#10;&#10;本文テキストをここに入力します。&#10;&#10;- リスト項目1&#10;- リスト項目2&#10;&#10;[box]重要なお知らせはこちら[/box]" oninput="updateAll()"></textarea>
+    </div>
+
+    <div class="form-section">
+      <label>画像</label>
+      <div class="img-toggle">
+        <button type="button" id="btn-file" class="active" onclick="switchImgType('file')">📁 ファイルをアップロード</button>
+        <button type="button" id="btn-url" onclick="switchImgType('url')">🔗 URLを入力</button>
+      </div>
+      <input class="form-input" type="file" id="f-img-file" accept="image/*" onchange="handleFileUpload(this)">
+      <input class="form-input" type="url" id="f-img-url" placeholder="https://example.com/image.jpg" style="display:none;" oninput="updateAll()">
+      <img id="img-thumb" class="img-preview" alt="プレビュー">
+      <p class="hint" style="margin-top:6px;">省略可（省略時は絵文字プレースホルダーを表示）</p>
+    </div>
+
+    <div class="form-section">
+      <label>プレースホルダー絵文字 <span style="font-weight:400;color:#888;">（画像なしの場合）</span></label>
+      <input class="form-input" type="text" id="f-emoji" value="📰" oninput="updateAll()">
+    </div>
+
+    <div class="form-section">
+      <label for="f-cta-label">CTAボタン（任意）</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <input class="form-input" type="text" id="f-cta-label" placeholder="例：メニューを見る" oninput="updateAll()">
+        <input class="form-input" type="text" id="f-cta-url" placeholder="例：../menu.html" oninput="updateAll()">
+      </div>
+    </div>
+
+    <div class="form-section">
+      <label for="f-filename">出力ファイル名</label>
+      <input class="form-input" type="text" id="f-filename" placeholder="例：spring-menu-2025-04.html">
+      <p class="hint" style="margin-top:4px;">タイトル入力時に自動生成されます。<code>news/</code> フォルダに保存してください。</p>
+    </div>
+
+    <hr class="divider">
+
+    <div class="action-btns">
+      <button class="btn-download" onclick="downloadHTML()">📥 HTMLをダウンロード</button>
+      <button class="btn-snippet" onclick="toggleSnippet()">📋 data.js用コードを表示</button>
+    </div>
+
+    <div class="snippet-wrap" id="snippet-wrap">
+      <h3>js/data.js の NEWS_LIST に追加するコード：</h3>
+      <pre class="snippet-code" id="snippet-code"></pre>
+      <button class="btn-copy" id="btn-copy" onclick="copySnippet()">コピー</button>
+    </div>
+
+  </div><!-- /form-panel -->
+
+  <!-- ── PREVIEW PANEL ── -->
+  <div class="preview-panel">
+    <h2>👁 プレビュー</h2>
+    <div class="preview-frame" id="preview-frame">
+      <div style="text-align:center;color:#aaa;padding:60px 20px;">
+        <div style="font-size:3rem;margin-bottom:12px;">📝</div>
+        <p>左のフォームを入力するとプレビューが表示されます</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tool-layout -->
+
+<script>
+// ─── STATE ───
+let imgDataURL = '';
+let imgType = 'file';
+
+// ─── IMAGE HANDLING ───
+function switchImgType(type) {
+  imgType = type;
+  document.getElementById('btn-file').classList.toggle('active', type === 'file');
+  document.getElementById('btn-url').classList.toggle('active', type === 'url');
+  document.getElementById('f-img-file').style.display = type === 'file' ? 'block' : 'none';
+  document.getElementById('f-img-url').style.display = type === 'url' ? 'block' : 'none';
+  updateAll();
+}
+
+function handleFileUpload(input) {
+  const file = input.files[0];
+  if (!file) { imgDataURL = ''; updateAll(); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    imgDataURL = e.target.result;
+    const thumb = document.getElementById('img-thumb');
+    thumb.src = imgDataURL;
+    thumb.style.display = 'block';
+    updateAll();
+  };
+  reader.readAsDataURL(file);
+}
+
+function getImageSrc() {
+  if (imgType === 'file') return imgDataURL;
+  return document.getElementById('f-img-url').value.trim();
+}
+
+// ─── SIMPLE MARKDOWN PARSER ───
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function inline(s) {
+  return esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+function parseContent(raw) {
+  const lines = raw.split('\n');
+  let html = '', inList = false;
+  for (let line of lines) {
+    if (line.startsWith('## ')) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += '<h2>' + inline(line.slice(3)) + '</h2>';
+    } else if (line.startsWith('### ')) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += '<h3>' + inline(line.slice(4)) + '</h3>';
+    } else if (line.startsWith('- ')) {
+      if (!inList) { html += '<ul>'; inList = true; }
+      html += '<li>' + inline(line.slice(2)) + '</li>';
+    } else if (/^\[box\].*\[\/box\]$/.test(line)) {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += '<div class="highlight-box">' + inline(line.replace('[box]','').replace('[/box]','')) + '</div>';
+    } else if (line.trim() === '') {
+      if (inList) { html += '</ul>'; inList = false; }
+    } else {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += '<p>' + inline(line) + '</p>';
+    }
+  }
+  if (inList) html += '</ul>';
+  return html;
+}
+
+// ─── SLUG GENERATOR ───
+function toSlug(title) {
+  const map = {'あ':'a','い':'i','う':'u','え':'e','お':'o','か':'ka','き':'ki','く':'ku','け':'ke','こ':'ko','さ':'sa','し':'shi','す':'su','せ':'se','そ':'so','た':'ta','ち':'chi','つ':'tsu','て':'te','と':'to','な':'na','に':'ni','ぬ':'nu','ね':'ne','の':'no','は':'ha','ひ':'hi','ふ':'fu','へ':'he','ほ':'ho','ま':'ma','み':'mi','む':'mu','め':'me','も':'mo','や':'ya','ゆ':'yu','よ':'yo','ら':'ra','り':'ri','る':'ru','れ':'re','ろ':'ro','わ':'wa','を':'wo','ん':'n'};
+  const date = document.getElementById('f-date').value.replace(/[^0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+  const slug = title.toLowerCase()
+    .replace(/[ぁ-ん]/g, c => map[c] || '')
+    .replace(/[ァ-ン]/g, c => { const h = String.fromCharCode(c.charCodeAt(0)-0x60); return map[h]||''; })
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 40);
+  return (slug || 'article') + (date ? '-' + date : '') + '.html';
+}
+
+// ─── PREVIEW UPDATE ───
+function updateAll() {
+  const title = document.getElementById('f-title').value.trim();
+  const date = document.getElementById('f-date').value.trim();
+  const badge = document.getElementById('f-badge').value.trim();
+  const badgeStyle = document.getElementById('f-badge-style').value;
+  const summary = document.getElementById('f-summary').value.trim();
+  const content = document.getElementById('f-content').value;
+  const emoji = document.getElementById('f-emoji').value.trim() || '📰';
+  const ctaLabel = document.getElementById('f-cta-label').value.trim();
+  const ctaUrl = document.getElementById('f-cta-url').value.trim();
+  const imgSrc = getImageSrc();
+
+  // Auto-fill filename
+  const fn = document.getElementById('f-filename');
+  if (!fn.dataset.manual && title) fn.value = toSlug(title);
+
+  if (!title) {
+    document.getElementById('preview-frame').innerHTML = `
+      <div style="text-align:center;color:#aaa;padding:60px 20px;">
+        <div style="font-size:3rem;margin-bottom:12px;">📝</div>
+        <p>タイトルを入力するとプレビューが表示されます</p>
+      </div>`;
+    return;
+  }
+
+  const heroHTML = imgSrc
+    ? `<img src="${imgSrc}" class="prev-hero" alt="${esc(title)}" style="display:block;width:100%;height:200px;object-fit:cover;border-radius:12px;margin:20px 0;">`
+    : `<div class="prev-hero"><span>${emoji}</span></div>`;
+
+  const bodyHTML = content ? parseContent(content) : '<p style="color:#aaa;">（本文なし）</p>';
+
+  const ctaHTML = ctaLabel && ctaUrl
+    ? `<a href="${esc(ctaUrl)}" style="background:linear-gradient(135deg,#ff9ecd,#a78bfa);color:#fff;padding:9px 18px;border-radius:20px;text-decoration:none;font-size:0.8rem;font-weight:700;">${esc(ctaLabel)}</a>`
+    : '';
+
+  document.getElementById('preview-frame').innerHTML = `
+    <span class="prev-badge ${esc(badgeStyle)}">${esc(badge || 'お知らせ')}</span>
+    <div class="prev-h1">${esc(title)}</div>
+    <div class="prev-date">${esc(date)}</div>
+    ${heroHTML}
+    <div class="prev-body">${bodyHTML}</div>
+    <div class="prev-footer">
+      <span class="prev-back">← お知らせ一覧へ</span>
+      ${ctaHTML}
+    </div>`;
+
+  // Update snippet
+  updateSnippet(title, date, badge, badgeStyle, summary);
+}
+
+function updateSnippet(title, date, badge, badgeStyle, summary) {
+  const fn = document.getElementById('f-filename').value || 'article.html';
+  const id = fn.replace('.html','');
+  const code = `  {\n    id: '${id}',\n    file: '${fn}',\n    date: '${date}',\n    badge: '${badge || 'お知らせ'}',\n    badgeClass: '${badgeStyle}',\n    title: '${title.replace(/'/g,"\\'")}',\n    summary: '${(document.getElementById('f-summary').value.trim()||'').replace(/'/g,"\\'")}',\n  },`;
+  document.getElementById('snippet-code').textContent = code;
+}
+
+// ─── FILENAME MANUAL EDIT DETECTION ───
+document.getElementById('f-filename').addEventListener('input', function() {
+  this.dataset.manual = this.value ? '1' : '';
+});
+
+// ─── SNIPPET TOGGLE ───
+function toggleSnippet() {
+  const wrap = document.getElementById('snippet-wrap');
+  wrap.style.display = wrap.style.display === 'none' || !wrap.style.display ? 'block' : 'none';
+}
+
+// ─── COPY SNIPPET ───
+function copySnippet() {
+  const code = document.getElementById('snippet-code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.getElementById('btn-copy');
+    btn.textContent = '✅ コピーしました';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'コピー'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ─── HTML GENERATION ───
+function generateHTML() {
+  const title   = document.getElementById('f-title').value.trim();
+  const date    = document.getElementById('f-date').value.trim();
+  const badge   = document.getElementById('f-badge').value.trim() || 'お知らせ';
+  const bStyle  = document.getElementById('f-badge-style').value;
+  const content = document.getElementById('f-content').value;
+  const emoji   = document.getElementById('f-emoji').value.trim() || '📰';
+  const ctaLabel= document.getElementById('f-cta-label').value.trim();
+  const ctaUrl  = document.getElementById('f-cta-url').value.trim();
+  const imgSrc  = getImageSrc();
+
+  const heroHTML = imgSrc
+    ? `<div class="article-hero"><img src="${imgSrc}" alt="${esc(title)}"></div>`
+    : `<div class="article-hero"><span class="article-hero-placeholder" aria-hidden="true">${emoji}</span></div>`;
+
+  // Convert markdown to article-body HTML
+  const bodyHTML = content ? parseContent(content)
+    .replace(/<h2>/g,'<h2>').replace(/<h3>/g,'<h3>')
+    .replace(/class="highlight-box"/g,'class="highlight-box"')
+    : '';
+
+  const ctaHTML = ctaLabel && ctaUrl
+    ? `<a href="${ctaUrl}" class="btn-primary" style="font-size:0.82rem;padding:10px 20px;">${ctaLabel}</a>`
+    : '';
+
+  const dateAttr = date.replace(/[^0-9\-]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+
+  return `<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(title)} | STORY 川口市木曽呂</title>
+<meta name="description" content="${esc(document.getElementById('f-summary').value.trim() || title)}">
+<meta property="og:title" content="${esc(title)} | STORY">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#ff9ecd">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Cormorant+Garamond:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-page="news">
+<div id="site-header"></div>
+
+<main id="main-content">
+  <nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="../index.html">STORY</a><span>›</span>
+    <a href="index.html">お知らせ</a><span>›</span>
+    ${esc(title)}
+  </nav>
+
+  <div style="padding:110px 5% 0;">
+    <div class="article-wrap">
+      <article>
+        <header class="article-header">
+          <span class="news-badge ${bStyle}">${esc(badge)}</span>
+          <h1>${esc(title)}</h1>
+          <time class="article-date"${dateAttr ? ` datetime="${dateAttr}"` : ''}>${esc(date)}</time>
+        </header>
+
+        ${heroHTML}
+
+        <div class="article-body">
+          ${bodyHTML}
+        </div>
+
+        <footer class="article-footer">
+          <a href="index.html" class="article-back-link">← お知らせ一覧へ</a>
+          ${ctaHTML}
+        </footer>
+      </article>
+    </div>
+  </div>
+</main>
+
+<div id="site-footer"></div>
+<script src="../js/data.js"><\/script>
+<script src="../js/main.js"><\/script>
+</body>
+</html>`;
+}
+
+// ─── DOWNLOAD ───
+function downloadHTML() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { alert('タイトルを入力してください'); return; }
+  const html = generateHTML();
+  const fn = document.getElementById('f-filename').value || toSlug(title);
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = fn;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// Init
+updateAll();
+</script>
+</body>
+</html>

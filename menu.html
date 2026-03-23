@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>メニュー | STORY 川口市木曽呂</title>
+<meta name="description" content="STORYの全メニュー。ガリバタからあげ・ストーリー焼き・タピオカ・定食・カクテル。テイクアウトもOK！">
+<meta property="og:title" content="メニュー | STORY 川口市木曽呂">
+<meta property="og:description" content="ガリバタからあげ・ストーリー焼き・タピオカ・定食・カクテル。テイクアウトもOK！">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ff9ecd">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=Cormorant+Garamond:wght@400;500&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="menu">
+<div id="site-header"></div>
+
+<main id="main-content">
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" aria-label="パンくずリスト">
+    <a href="index.html">STORY</a><span>›</span> メニュー
+  </nav>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <h1>🍽️ メニュー</h1>
+    <p>全62品 · テイクアウト対応 · PayPay OK</p>
+  </section>
+
+  <!-- Recommended Sets -->
+  <section id="sets-section" style="padding:60px 5%;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <h2 class="section-title fade-up">おすすめセット</h2>
+      <div class="sets-grid">
+        <div class="set-card fade-up">
+          <span class="set-badge" style="background:#e65100;">🧄 ランチ人気No.1</span>
+          <div class="set-name">がっつりランチセット</div>
+          <div class="set-items">ガリバタからあげ定食<br>+ 定番タピオカミルクティー</div>
+          <div class="set-price">¥1,300 <span class="set-ref">（単品合計¥1,300→同価・量UP）</span></div>
+          <button class="btn-primary" onclick="orderSet('がっつりランチセット','ガリバタからあげ定食 + 定番タピオカミルクティー',1300)" style="width:100%;margin-top:12px;justify-content:center;border:none;cursor:pointer;">🛒 注文する</button>
+        </div>
+        <div class="set-card fade-up">
+          <span class="set-badge">⭐ 看板セット</span>
+          <div class="set-name">ストーリー焼きセット</div>
+          <div class="set-items">モダンストーリー焼き<br>+ レモネード</div>
+          <div class="set-price">¥750 <span class="set-ref">（税込）</span></div>
+          <button class="btn-primary" onclick="orderSet('ストーリー焼きセット','モダンストーリー焼き + レモネード',750)" style="width:100%;margin-top:12px;justify-content:center;border:none;cursor:pointer;">🛒 注文する</button>
+        </div>
+        <div class="set-card fade-up">
+          <span class="set-badge" style="background:var(--sage);">💚 ファミリー人気</span>
+          <div class="set-name">子ども喜ぶセット</div>
+          <div class="set-items">チュロス（3種から選択）<br>+ 定番タピオカミルクティー</div>
+          <div class="set-price">¥550 <span class="set-ref">（税込）</span></div>
+          <button class="btn-primary" onclick="orderSet('子ども喜ぶセット','チュロス + 定番タピオカミルクティー',550)" style="width:100%;margin-top:12px;justify-content:center;border:none;cursor:pointer;">🛒 注文する</button>
+        </div>
+        <div class="set-card fade-up">
+          <span class="set-badge" style="background:var(--sage);">🏠 家族3人分</span>
+          <div class="set-name">家族テイクアウトセット</div>
+          <div class="set-items">からあげ増量定食<br>+ モダンストーリー焼き<br>+ 濃い抹茶タピオカ</div>
+          <div class="set-price">¥1,800 <span class="set-ref">（税込）</span></div>
+          <button class="btn-primary" onclick="orderSet('家族テイクアウトセット','からあげ増量定食 + モダンストーリー焼き + 濃い抹茶タピオカ',1800)" style="width:100%;margin-top:12px;justify-content:center;border:none;cursor:pointer;">🛒 注文する</button>
+        </div>
+        <div class="set-card fade-up">
+          <span class="set-badge" style="background:#7b1fa2;">🏢 法人・まとめ注文</span>
+          <div class="set-name">法人まとめセット（5食〜）</div>
+          <div class="set-items">ガリバタからあげ定食×5食<br>前日17:00までの予約で<br>時間指定お渡し</div>
+          <div class="set-price">¥4,750〜 <span class="set-ref">（5食・税込）</span></div>
+          <button class="btn-primary" onclick="orderSet('法人まとめセット5食','ガリバタからあげ定食×5食',4750)" style="width:100%;margin-top:12px;justify-content:center;border:none;cursor:pointer;">🛒 注文する</button>
+        </div>
+        <div class="set-card fade-up">
+          <span class="set-badge" style="background:#7b1fa2;">🍺 夜の一杯</span>
+          <div class="set-name">夜おつまみセット</div>
+          <div class="set-items">でか唐揚げ（ニンニクマシマシ）× 2<br>+ 生ビール × 2</div>
+          <div class="set-price">¥1,700 <span class="set-ref">（税込）</span></div>
+          <button class="btn-primary" onclick="orderSet('夜おつまみセット','でか唐揚げ×2 + 生ビール×2',1700)" style="width:100%;margin-top:12px;justify-content:center;border:none;cursor:pointer;">🛒 注文する</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ranking -->
+  <section id="ranking-section" style="padding:0 5% 60px;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <h2 class="section-title fade-up">🏆 人気ランキング TOP7</h2>
+      <div class="ranking-grid" id="ranking-grid"></div>
+    </div>
+  </section>
+
+  <!-- Full Menu -->
+  <section id="menu-section" style="padding:0 5% 80px;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <h2 class="section-title fade-up">📋 全メニュー</h2>
+      <!-- Search -->
+      <div class="menu-search-wrap fade-up">
+        <input type="text" id="menu-search" placeholder="🔍 メニューを検索..." oninput="filterMenu()" class="menu-search-input" autocomplete="off">
+      </div>
+      <!-- Main Tabs -->
+      <div class="menu-tabs fade-up" role="tablist" aria-label="メニューカテゴリー">
+        <button class="menu-tab active" role="tab" aria-selected="true" onclick="setGroup('all',this)">すべて</button>
+        <button class="menu-tab" role="tab" aria-selected="false" onclick="setGroup('food',this)">🍱 フード</button>
+        <button class="menu-tab" role="tab" aria-selected="false" onclick="setGroup('light',this)">🍟 軽食・スイーツ</button>
+        <button class="menu-tab" role="tab" aria-selected="false" onclick="setGroup('drink',this)">🧋 ドリンク</button>
+        <button class="menu-tab" role="tab" aria-selected="false" onclick="setGroup('alcohol',this)">🍺 お酒・カクテル</button>
+        <button class="menu-tab" role="tab" aria-selected="false" onclick="setGroup('kodomo',this)">💚 こども食堂</button>
+      </div>
+      <!-- Sub Tabs -->
+      <div class="menu-subtabs" id="sub-tabs" role="tablist" aria-label="サブカテゴリー"></div>
+      <!-- Menu Grid -->
+      <div class="menu-grid" id="menu-grid"></div>
+    </div>
+  </section>
+
+  <!-- LINE CTA -->
+  <section class="line-cta-strip">
+    <h3>💬 LINE登録で毎日のお得情報をGet！</h3>
+    <p>毎朝8時に今日の日替わり定食をお知らせ</p>
+    <a href="https://line.me/R/ti/p/@story_kizoro" target="_blank" class="line-cta-btn">💬 LINE友達追加はこちら →</a>
+  </section>
+</main>
+
+<!-- Cart FAB -->
+<button id="cart-fab" onclick="openCart()" aria-label="カートを見る" style="display:none;position:fixed;bottom:24px;right:20px;z-index:800;padding:14px 22px;border-radius:50px;background:linear-gradient(135deg,#ff9ecd,#a78bfa);border:none;cursor:pointer;font-size:0.88rem;font-weight:700;box-shadow:0 6px 24px rgba(167,139,250,0.4);align-items:center;gap:8px;color:#fff;font-family:inherit;">
+  🛒 カート <span class="cart-count" style="background:#fff;color:#3d2c4a;border-radius:50%;width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;">0</span>
+</button>
+
+<!-- Sticky Order Bar -->
+<a href="reserve.html" id="sticky-order-bar">🛒 カートへ進む</a>
+
+<!-- Cart Modal -->
+<div id="cart-modal" role="dialog" aria-modal="true" aria-labelledby="cart-modal-title" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:flex-end;justify-content:center;">
+  <div style="background:var(--cream);border-radius:20px 20px 0 0;padding:24px;width:100%;max-width:600px;max-height:80vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h3 id="cart-modal-title" style="font-family:'Shippori Mincho',serif;">🛒 カート</h3>
+      <button onclick="closeCart()" aria-label="カートを閉じる" style="background:none;border:none;font-size:1.2rem;cursor:pointer;min-width:44px;min-height:44px;">✕</button>
+    </div>
+    <div id="cart-items"></div>
+    <div style="margin-top:16px;display:flex;gap:12px;">
+      <button onclick="goToReserve()" class="btn-primary" style="flex:1;justify-content:center;border:none;cursor:pointer;">注文確定へ進む →</button>
+    </div>
+  </div>
+</div>
+
+<div id="site-footer"></div>
+
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/menu.js"></script>
+<script>
+// Initialize ranking on this page
+document.addEventListener('DOMContentLoaded', () => {
+  const rankItems = [
+    {id:5,  emoji:'🧄', name:'ガリバタからあげ定食',                 price:950,  rank:1},
+    {id:1,  emoji:'🍡', name:'モダンストーリー焼き',                 price:500,  rank:2},
+    {id:35, emoji:'🧋', name:'定番タピオカミルクティー',             price:350,  rank:3},
+    {id:25, emoji:'🍗', name:'でか唐揚げ（ふつう味）',               price:300,  rank:4},
+    {id:37, emoji:'🍵', name:'濃い抹茶タピオカ',                     price:450,  rank:5},
+    {id:29, emoji:'🍿', name:'特盛ポップコーン（大人ver）',           price:450,  rank:6},
+    {id:57, emoji:'🍹', name:'食べられるカクテル・マリブマンゴー',   price:600,  rank:7},
+  ];
+  const colors = ['linear-gradient(135deg,#ffd700,#ff8c00)','linear-gradient(135deg,#c0c0c0,#888)','linear-gradient(135deg,#cd7f32,#8b4513)'];
+  const grid = document.getElementById('ranking-grid');
+  if (grid) {
+    grid.innerHTML = rankItems.map((item, i) => `
+      <div class="ranking-card fade-up" style="background:${i===0?'linear-gradient(135deg,#fff8e1,#fffde7)':i===1?'linear-gradient(135deg,#f5f5f5,#fafafa)':i===2?'linear-gradient(135deg,#fbe9e7,#fff3e0)':'var(--warm)'};border-radius:16px;padding:16px;display:flex;align-items:center;gap:12px;border:1px solid var(--border);margin-bottom:8px;">
+        <div style="font-size:1.4rem;font-weight:900;color:${i<3?['#f4a61b','#9e9e9e','#cd7f32'][i]:'var(--brown)'};min-width:32px;text-align:center;font-family:'Cormorant Garamond',serif;">${item.rank}</div>
+        <div style="font-size:1.5rem;">${item.emoji}</div>
+        <div style="flex:1;"><div style="font-weight:700;font-size:0.9rem;">${item.name}</div><div style="font-size:0.78rem;color:var(--brown);">¥${item.price.toLocaleString()}</div></div>
+        <button onclick="addToCart(${item.id})" class="add-btn">+ カート</button>
+      </div>`).join('');
+  }
+});
+</script>
+</body>
+</html>
